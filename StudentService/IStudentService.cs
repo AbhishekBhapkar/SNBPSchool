@@ -9,5 +9,8 @@ namespace ProjectSchool.Services.StudentService
         Task<ServiceResponse<List<GetStudentsDto>>> GetAllStudents();
         Task<ServiceResponse<List<GetStudentsDto>>> AddStudent(AddStudentDto newStudentAdd);
         Task<ServiceResponse<GetStudentsDto>> GetStudentById(int id);
+        Task<ServiceResponse<List<GetStudentsDto>>> DeleteStudentById(int id);
+        Task<ServiceResponse<GetStudentsDto>> UpdateStudentById(UpdateStudentDto updatedStudent);
+
     }
 }

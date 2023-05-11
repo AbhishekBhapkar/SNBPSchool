@@ -42,6 +42,39 @@ namespace ProjectSchool.Services.StudentService
             ServiceResponse.Data = _mapper.Map<GetStudentsDto>(dbStudents);
             return ServiceResponse;
         }
+        public async Task<ServiceResponse<List<GetStudentsDto>>> DeleteStudentById(int id)
+        {
+            var serviceResponse = new ServiceResponse<List<GetStudentsDto>>();
+
+            var student = await _context.Students.FirstOrDefaultAsync(c => c.Id == id);
+            if (student is null)
+                throw new Exception($"Student with Id '{id}' not found");
+
+            _context.Students.Remove(student);
+
+            await _context.SaveChangesAsync();
+            serviceResponse.Data = await _context.Students.Select(c => _mapper.Map<GetStudentsDto>(c)).ToListAsync();
+
+            return serviceResponse;
+        }
+        public async Task<ServiceResponse<GetStudentsDto>> UpdateStudentById(UpdateStudentDto UpdatedStudent)
+        {
+            var ServiceResponse = new ServiceResponse<GetStudentsDto>();
+
+            var student = await _context.Students.FirstOrDefaultAsync(c => c.Id == UpdatedStudent.Id);
+            if (student is null)
+                throw new Exception($"Student with Id '{UpdatedStudent.Id}' not found");
+
+            student.StudentFirstName = UpdatedStudent.StudentFirstName;
+            student.StudentMiddleName = UpdatedStudent.StudentMiddleName;
+            student.StudentLastName = UpdatedStudent.StudentLastName;
+            student.classroom = UpdatedStudent.classroom;
+            student.section = UpdatedStudent.section;
+
+            await _context.SaveChangesAsync();
+            ServiceResponse.Data = _mapper.Map<GetStudentsDto>(student);
+            return ServiceResponse;
+        }
 
     }
 }
