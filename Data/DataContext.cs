@@ -10,6 +10,7 @@ namespace ProjectSchool.Data
             
         }
         public DbSet<Students> Students => Set<Students>();
+       /*  public DbSet<User> Users => Set<User>(); */
 
     }
 }
